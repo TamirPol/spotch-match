@@ -15,6 +15,9 @@
 .bg-darker {
   background-color: rgb(31, 9, 0);
 }
+.bg-lightgray {
+  background-color: rgb(211, 218, 253);
+}
 .text-second {
   color: rgb(255, 93, 5) !important;
 }

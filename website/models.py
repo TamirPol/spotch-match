@@ -33,6 +33,7 @@ class Message(db.Model):
     username = db.Column(db.String(150))
     chat_id = db.Column(db.Integer, db.ForeignKey("chat.id"))
 
-class MessageSchema(ma.SQLAlchemySchema):
+class MessageSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Message
+        load_instance = True
