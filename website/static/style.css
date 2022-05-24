@@ -1,0 +1,41 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap");
+
+.bg-first {
+  background-color: rgb(57, 11, 172);
+}
+.bg-second {
+  background-color: rgb(255, 93, 5);
+}
+.bg-third {
+  background-color: rgb(128, 147, 241);
+}
+.bg-lighter {
+  background-color: rgb(246, 235, 255);
+}
+.bg-darker {
+  background-color: rgb(31, 9, 0);
+}
+.text-second {
+  color: rgb(255, 93, 5) !important;
+}
+.roundedForm {
+  border-radius: 10%;
+}
+.verdana {
+  font-family: Verdana, Geneva, Tahoma, sans-serif !important;
+}
+.playfair {
+  font-family: "Playfair Display", serif;
+}
+
+.dangerAlert {
+  background-color: rgb(220, 20, 60);
+  color: rgb(246, 235, 255);
+}
+.successAlert {
+  background-color: rgb(128, 147, 241);
+  color: rgb(246, 235, 255);
+}
+.bio_p {
+  white-space: pre-wrap;
+}

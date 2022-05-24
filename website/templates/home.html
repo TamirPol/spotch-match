@@ -1,0 +1,78 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
+%} {% with messages = get_flashed_messages(with_categories=true)%} {% if
+messages%} {% for category, message in messages %}
+<div class="alert {{category}} alert-dismissible fade show mb-3" role="alert">
+  {{message}}
+  <button
+    type="button"
+    class="btn-close"
+    data-bs-dismiss="alert"
+    aria-label="Close"
+  ></button>
+</div>
+{% endfor %} {% endif %} {% endwith %}
+<script type="text/javascript">
+  $(document).ready(() => {
+    var socket = io.connect("http://localhost:8000/");
+    socket.on("recieve-message", (text) => {
+      console.log(text);
+      $("#messages").append(
+        "  <li class='mb-4 list-unstyled'>" + text + "</li>"
+      );
+      console.log("Message recieved");
+    });
+    $("#sendButton").on("click", () => {
+      if ($("#myMessage").val() == "") {
+        return;
+      }
+      socket.emit("messageSent", $("#myMessage").val(), "{{user.username}}");
+      $("#myMessage").val("");
+    });
+    socket.on("room-joined", (room, messages) => {
+      console.log(messages);
+      messages.forEach((message, i) => {
+        $("#messages").append(
+          "<li class='mb-4 list-unstyled'>" + message.text + "</li>"
+        );
+      });
+    });
+    const roomButtons = document.getElementsByClassName("roomButton");
+    for (i = 0; i < roomButtons.length; i++) {
+      roomButtons[i].addEventListener("click", (e) => {
+        socket.emit("join-room", e.target.getAttribute("data-value"));
+      });
+    }
+  });
+</script>
+<div class="row mt-5">
+  <div class="d-grid gap-2 d-flex mb-3">
+    <h3 class="verdana text-white me-5">Chats</h3>
+    <form method="POST">
+      <button class="btn btn-primary btn-sm ms-5" id="findFriends">
+        Find Matches!
+      </button>
+    </form>
+  </div>
+
+  <div class="col-3 mt-3">
+    <div class="text-center">
+      {% for chat in user.chats %}
+      <button
+        class="btn btn-secondary w-100 py-2 border border-dark roomButton"
+        data-value="{{chat.room}}"
+      >
+        {% if chat.user1 == user.username %} {{chat.user2}} {% else %}
+        {{chat.user1}} {% endif %}
+      </button>
+      {% endfor %} {% if user.chats|length == 0%}
+      <p>You have no chats!</p>
+      {% endif%}
+    </div>
+  </div>
+  <div class="col-9 border border-secondary py-2">
+    <ul id="messages"></ul>
+    <input type="text" id="myMessage" />
+    <button id="sendButton">Send</button>
+  </div>
+</div>
+{% endblock %}
