@@ -28,6 +28,7 @@ messages%} {% for category, message in messages %}
             "</li></div>"
         );
       }
+      $("#main").scrollTop($("#main")[0].scrollHeight);
     });
     $("#sendButton").on("click", () => {
       if ($("#myMessage").val() == "") {
@@ -39,6 +40,7 @@ messages%} {% for category, message in messages %}
     socket.on("room-joined", (room, messages, username) => {
       $("#messages").empty();
       $("#chat-toggle").removeClass("d-none");
+      $("#press-chat").addClass("d-none");
       $("#username")[0].innerHTML =
         "<i class='fa-solid fa-circle-user border border-dark rounded-circle bg-secondary fs-4 text-white'></i> " +
         username;
@@ -57,6 +59,7 @@ messages%} {% for category, message in messages %}
           );
         }
       });
+      $("#main").scrollTop($("#main")[0].scrollHeight);
     });
     const roomButtons = document.getElementsByClassName("roomButton");
     for (i = 0; i < roomButtons.length; i++) {
@@ -96,20 +99,36 @@ messages%} {% for category, message in messages %}
       {% endif%}
     </div>
   </div>
-  <div id="main" class="col-9 border border-dark border-2 pb-2 bg-lightgray">
+  <div
+    id="main"
+    class="col-9 border border-dark border-2 pb-2 bg-lightgray mb-5"
+    style="height: 75vh; overflow-y: scroll"
+  >
+    <div id="press-chat">
+      <p class="text-center mt-5 text-secondary">
+        <i
+          class="fa-solid fa-paper-plane display-1 border rounded-circle border-dark ps-3 pe-4 py-4"
+        ></i>
+      </p>
+      <p class="playfair lead text-center">Chat with your sport match!</p>
+      <p class="text-center text-secondary">
+        Press one of the chats at the side to begin texting
+      </p>
+    </div>
+
     <div class="d-none" id="chat-toggle">
       <p
-        class="border-bottom border-secondary py-2 text-start ps-5 verdana"
+        class="border-bottom border-secondary py-2 text-start ps-5 verdana bg-lightgray"
+        style="position: sticky; top: 0"
         id="username"
       ></p>
       <ul id="messages"></ul>
-      <div class="row">
-        <div class="mt-4 text-center col-6 offset-3">
-          <div class="input-group">
-            <input type="text" id="myMessage" class="form-control" />
-            <button id="sendButton" class="btn btn-primary">Send</button>
-          </div>
-        </div>
+      <div
+        class="input-group mt-4 text-center"
+        style="position: sticky; bottom: 0"
+      >
+        <input type="text" id="myMessage" class="form-control" />
+        <button id="sendButton" class="btn btn-primary">Send</button>
       </div>
     </div>
   </div>
