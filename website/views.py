@@ -36,6 +36,9 @@ def profile():
 @views.route("/editProfile", methods=["GET", "POST"])
 @login_required
 def editProfile():
+    fieldsValue = {"username": current_user.username, "firstName": current_user.firstName, "lastName": current_user.lastName, "birthday": current_user.birthday, "sportOption": current_user.sport, "sex": current_user.sex, "sameSex": current_user.sameSex, "bio": current_user.bio}
+    print(fieldsValue)
+    print(current_user.username)
     if request.method == "POST":
         username = request.form.get("username")
         firstName = request.form.get("firstName")
@@ -45,6 +48,7 @@ def editProfile():
         sex = request.form.get("sex")
         sameSex = request.form.get("sameSex")
         bio = request.form.get("bio")
+        fieldsValue.update(username=username, firstName=firstName, lastName=lastName, birthday=birthday, sportOption=sport, sex=sex, sameSex=sameSex, bio=bio)
         userUsernameTaken = User.query.filter_by(username=username).first()
         if userUsernameTaken and username != current_user.username:
             flash("Username already taken!", category="dangerAlert")
@@ -71,4 +75,4 @@ def editProfile():
             current_user.bio = bio
             db.session.commit()
             return redirect(url_for("views.profile"))
-    return render_template("editProfile.html", user=current_user)
+    return render_template("editProfile.html", user=current_user, fieldsValue=fieldsValue)

@@ -25,6 +25,7 @@ content %}
         id="email"
         name="email"
         placeholder="Enter email"
+        value="{{fieldsValue.email}}"
       />
     </div>
     <div class="mb-3 text-center">
@@ -37,6 +38,7 @@ content %}
         id="username"
         name="username"
         placeholder="Enter username"
+        value="{{fieldsValue.username}}"
       />
     </div>
     <div class="mb-3 text-center">
@@ -49,6 +51,7 @@ content %}
         id="firstName"
         name="firstName"
         placeholder="Enter first name"
+        value="{{fieldsValue.firstName}}"
       />
     </div>
     <div class="mb-3 text-center">
@@ -61,6 +64,7 @@ content %}
         id="lastName"
         name="lastName"
         placeholder="Enter last name"
+        value="{{fieldsValue.lastName}}"
       />
     </div>
     <div class="mb-3 text-center">
@@ -73,6 +77,7 @@ content %}
         id="password1"
         name="password1"
         placeholder="Enter password"
+        value="{{fieldsValue.password1}}"
       />
     </div>
     <div class="mb-3 text-center">
@@ -85,67 +90,58 @@ content %}
         id="password2"
         name="password2"
         placeholder="Enter password"
+        value="{{fieldsValue.password2}}"
       />
     </div>
     <div class="mb-3 text-center">
       <label for="age" class="form-label text-second playfair"
         >Birthday:
       </label>
-      <input type="date" id="birthday" name="birthday" class="form-control" />
+      <input
+        type="date"
+        id="birthday"
+        name="birthday"
+        class="form-control"
+        value="{{fieldsValue.birthday}}"
+      />
     </div>
     <div class="mb-3 text-center">
       <label for="sport" class="form-label text-second playfair">Sport: </label>
       <select class="form-select" aria-label="Sport choices" name="sportOption">
+        {% set sportsList = ["Soccer", "Basketball", "Baseball", "Tennis", "Rock
+        Climbing"] %} {% if fieldsValue.sport == "" %}
         <option selected value="False">Choose a sport you play</option>
-        <option value="Soccer">Soccer</option>
-        <option value="Basketball">Basketball</option>
-        <option value="Baseball">Baseball</option>
-        <option value="Tennis">Tennis</option>
-        <option value="Rock Climbing">Rock Climbing</option>
+        {% endif %} {% for sport in sportsList %} {% if fieldsValue.sport ==
+        sport %}
+        <option selected value="{{sport}}">{{sport}}</option>
+        {% else %}
+        <option value="{{sport}}">{{sport}}</option>
+        {% endif %}
+        {% endfor %}
       </select>
     </div>
 
     <div class="form-check form-check-inline mb-3">
-      <input
-        class="form-check-input"
-        type="radio"
-        name="sex"
-        id="male"
-        value="male"
-      />
+      <input class="form-check-input" type="radio" name="sex" id="male" {% if
+      fieldsValue.sex == "male" %} checked {%endif%} value="male" />
       <label class="form-check-label" for="male"> Male </label>
     </div>
     <div class="form-check form-check-inline">
-      <input
-        class="form-check-input"
-        type="radio"
-        name="sex"
-        id="female"
-        value="female"
-      />
+      <input class="form-check-input" type="radio" name="sex" id="female" {% if
+      fieldsValue.sex == "female" %} checked {%endif%} value="female" />
       <label class="form-check-label" for="female"> Female </label>
     </div>
     <br />
     <div class="form-check form-check-inline mb-3">
-      <input
-        class="form-check-input"
-        type="radio"
-        name="sameSex"
-        id="yes"
-        value="yes"
-      />
+      <input class="form-check-input" type="radio" name="sameSex" id="yes" {% if
+      fieldsValue.sameSex == "yes" %} checked {%endif%} value="yes" />
       <label class="form-check-label" for="male">
         Match exclusively with same sex
       </label>
     </div>
     <div class="form-check form-check-inline">
-      <input
-        class="form-check-input"
-        type="radio"
-        name="sameSex"
-        id="no"
-        value="no"
-      />
+      <input class="form-check-input" type="radio" name="sameSex" id="no" {% if
+      fieldsValue.sameSex == "no" %} checked {%endif%} value="no" />
       <label class="form-check-label" for="female">
         Match with both sexes
       </label>

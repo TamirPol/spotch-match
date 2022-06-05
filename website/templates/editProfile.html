@@ -24,7 +24,7 @@ content %}
         class="form-control"
         id="username"
         name="username"
-        value="{{user.username}}"
+        value="{{fieldsValue.username}}"
       />
     </div>
     <div class="mb-3 text-center">
@@ -36,7 +36,7 @@ content %}
         class="form-control"
         id="firstName"
         name="firstName"
-        value="{{user.firstName}}"
+        value="{{fieldsValue.firstName}}"
       />
     </div>
     <div class="mb-3 text-center">
@@ -48,7 +48,7 @@ content %}
         class="form-control"
         id="lastName"
         name="lastName"
-        value="{{user.lastName}}"
+        value="{{fieldsValue.lastName}}"
       />
     </div>
     <div class="mb-3 text-center">
@@ -60,69 +60,54 @@ content %}
         id="birthday"
         name="birthday"
         class="form-control"
-        value="{{user.birthday}}"
+        value="{{fieldsValue.birthday}}"
       />
     </div>
-    <!--Selected needs to be declared-->
     <div class="mb-3 text-center">
       <label for="sport" class="form-label text-second playfair">Sport: </label>
       <select class="form-select" aria-label="Sport choices" name="sportOption">
-        <option value="Soccer">Soccer</option>
-        <option value="Basketball">Basketball</option>
-        <option value="Baseball">Baseball</option>
-        <option value="Tennis">Tennis</option>
-        <option value="Rock Climbing">Rock Climbing</option>
+        {% set sportsList = ["Soccer", "Basketball", "Baseball", "Tennis", "Rock Climbing"] %}
+        {% for sport in sportsList %}
+          {% if fieldsValue.sportOption == sport.strip() %}
+            <option selected value="{{sport}}">{{sport}}</option>
+            {% else %}
+          
+            <option value="{{sport}}">{{sport}}</option>
+            {% endif %}
+        {% endfor %}
       </select>
     </div>
+
     <div class="form-check form-check-inline mb-3">
-      <input
-        class="form-check-input"
-        type="radio"
-        name="sex"
-        id="male"
-        value="male"
-      />
+      <input class="form-check-input" type="radio" name="sex" id="male" {% if
+      fieldsValue.sex == "male" %} checked {%endif%} value="male" />
       <label class="form-check-label" for="male"> Male </label>
     </div>
     <div class="form-check form-check-inline">
-      <input
-        class="form-check-input"
-        type="radio"
-        name="sex"
-        id="female"
-        value="female"
-      />
+      <input class="form-check-input" type="radio" name="sex" id="female" {% if
+      fieldsValue.sex == "female" %} checked {%endif%} value="female" />
       <label class="form-check-label" for="female"> Female </label>
     </div>
     <br />
     <div class="form-check form-check-inline mb-3">
-      <input
-        class="form-check-input"
-        type="radio"
-        name="sameSex"
-        id="yes"
-        value="yes"
-      />
+      <input class="form-check-input" type="radio" name="sameSex" id="yes" {% if
+      fieldsValue.sameSex == "yes" %} checked {%endif%} value="yes" />
       <label class="form-check-label" for="male">
         Match exclusively with same sex
       </label>
     </div>
     <div class="form-check form-check-inline">
-      <input
-        class="form-check-input"
-        type="radio"
-        name="sameSex"
-        id="no"
-        value="no"
-      />
+      <input class="form-check-input" type="radio" name="sameSex" id="no" {% if
+      fieldsValue.sameSex == "no" %} checked {%endif%} value="no" />
       <label class="form-check-label" for="female">
         Match with both sexes
       </label>
     </div>
+
     <div class="mb-3 text-center">
       <label for="bio" class="form-label text-second playfair">Bio:</label>
       <textarea class="form-control" id="bio" rows="3" name="bio">
-{{user.bio}}</textarea
+{{fieldsValue.bio}}</textarea
       >
     </div>
     <div class="text-center">
