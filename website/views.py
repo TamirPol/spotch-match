@@ -4,25 +4,32 @@ from .models import User, Chat, Message
 from . import db
 views = Blueprint("views", __name__)
 
+@login_required
+@views.route("/user/profile/<username>")
+def user_profile(username):
+    user = User.query.filter_by(username=username).first()
+    print(user)
+    if user:
+        return render_template("otherUserProfile.html", user=user)
+    else:
+        return render_template("noUserProfile.html", user=user)
+
 
 @views.route("/", methods=["GET", "POST"])
 @login_required
 def home():
-    """ chats = Chat.query.filter_by().all()
-    print(chats)
-    print(current_user.firstName, current_user.chats)
-    print(chats[0].room)
-    print(current_user.chats[0].room)
-
-    for chat in chats:
-        print("haaaaaaa",chat.room, chat.id, chat.messages, chat.users) """
     if request.method == "POST":
-        newChat = Chat(room=current_user.username + "osama", user1="osama", user2="Tamirpo")
+        #Check sex
+        #Check if already connected
+        matchingUsers= User.query.filter((User.sport == current_user.sport)).filter((User.username != current_user.username)).filter((User.age - current_user.age <= 10) & (User.age - current_user.age >= -10)).limit(5).all()#.filter()
+        for i in matchingUsers:
+            print(i.username, i.age)
+        """ newChat = Chat(room=current_user.username + "James", user1="Tamirpo", user2="James")
         db.session.add(newChat)
-        otherUser = User.query.filter_by(username="osama").first()
+        otherUser = User.query.filter_by(username="James").first()
         otherUser.chats.append(newChat)
         current_user.chats.append(newChat)
-        db.session.commit()
+        db.session.commit() """
     return render_template("home.html", user=current_user)
 
 @views.route("/profile", methods=["GET", "POST"])
@@ -37,8 +44,6 @@ def profile():
 @login_required
 def editProfile():
     fieldsValue = {"username": current_user.username, "firstName": current_user.firstName, "lastName": current_user.lastName, "birthday": current_user.birthday, "sportOption": current_user.sport, "sex": current_user.sex, "sameSex": current_user.sameSex, "bio": current_user.bio}
-    print(fieldsValue)
-    print(current_user.username)
     if request.method == "POST":
         username = request.form.get("username")
         firstName = request.form.get("firstName")
@@ -69,6 +74,7 @@ def editProfile():
             current_user.firstName = firstName
             current_user.lastName = lastName
             current_user.birthday = birthday
+            current_user.age = int(birthday[0:4])
             current_user.sport = sport
             current_user.sex = sex
             current_user.sameSex = sameSex

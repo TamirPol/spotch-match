@@ -4,7 +4,7 @@ from flask_marshmallow import Marshmallow
 from os import path
 from flask_login import LoginManager
 
-db = SQLAlchemy()
+db = SQLAlchemy(session_options={"autoflush": False})
 DB_NAME = "database.db"
 ma = Marshmallow()
 

@@ -14,6 +14,7 @@ class User(db.Model, UserMixin):
     firstName = db.Column(db.String(150))
     lastName = db.Column(db.String(150))
     birthday=db.Column(db.String(150))
+    age = db.Column(db.Integer)
     sport = db.Column(db.String(150))
     sex = db.Column(db.String(150))
     sameSex = db.Column(db.String(150))
@@ -22,8 +23,8 @@ class User(db.Model, UserMixin):
 
 class Chat(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user1 = db.Column(db.String(150), unique=True)
-    user2 = db.Column(db.String(150), unique=True)
+    user1 = db.Column(db.String(150))
+    user2 = db.Column(db.String(150))
     room = db.Column(db.String(300), unique=True)
     messages = db.relationship("Message", backref="chat")
 

@@ -108,8 +108,7 @@ content %}
     <div class="mb-3 text-center">
       <label for="sport" class="form-label text-second playfair">Sport: </label>
       <select class="form-select" aria-label="Sport choices" name="sportOption">
-        {% set sportsList = ["Soccer", "Basketball", "Baseball", "Tennis", "Rock
-        Climbing"] %} {% if fieldsValue.sport == "" %}
+        {% set sportsList = ["Soccer", "Basketball", "Baseball", "Tennis", "Rock Climbing"] %} {% if fieldsValue.sport == "" %}
         <option selected value="False">Choose a sport you play</option>
         {% endif %} {% for sport in sportsList %} {% if fieldsValue.sport ==
         sport %}

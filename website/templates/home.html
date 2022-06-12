@@ -1,136 +1,140 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
-%} {% with messages = get_flashed_messages(with_categories=true)%} {% if
-messages%} {% for category, message in messages %}
-<div class="alert {{category}} alert-dismissible fade show mb-3" role="alert">
-  {{message}}
-  <button
-    type="button"
-    class="btn-close"
-    data-bs-dismiss="alert"
-    aria-label="Close"
-  ></button>
-</div>
-{% endfor %} {% endif %} {% endwith %}
-<script type="text/javascript">
-  $(document).ready(() => {
-    var socket = io.connect("http://localhost:8000/");
-    socket.on("recieve-message", (text, username) => {
-      if (username == "{{user.username}}") {
-        $("#messages").append(
-          "<div class='d-block m-3 text-end'><li style='word-wrap: break-word; max-width: 50%;' class='lh-lg mb-2 list-unstyled bg-first d-inline-block py-2 px-3 rounded text-white'>" +
-            text +
-            "</li></div>"
-        );
-      } else {
-        $("#messages").append(
-          "<div class='d-block m-3 text-start'><li style='word-wrap: break-word; max-width: 50%;' class='lh-lg mb-2 list-unstyled bg-light d-inline-block py-2 px-3 rounded text-dark'>" +
-            text +
-            "</li></div>"
-        );
-      }
-      $("#main").scrollTop($("#main")[0].scrollHeight);
-    });
-    $("#sendButton").on("click", () => {
-      if ($("#myMessage").val() == "") {
-        return;
-      }
-      socket.emit("messageSent", $("#myMessage").val(), "{{user.username}}");
-      $("#myMessage").val("");
-    });
-    socket.on("room-joined", (room, messages, username) => {
-      $("#messages").empty();
-      $("#chat-toggle").removeClass("d-none");
-      $("#press-chat").addClass("d-none");
-      $("#username")[0].innerHTML =
-        "<i class='fa-solid fa-circle-user border border-dark rounded-circle bg-secondary fs-4 text-white'></i> " +
-        username;
-      messages.forEach((message, i) => {
-        if (message.username == "{{user.username}}") {
+  %} {% with messages = get_flashed_messages(with_categories=true)%} {% if
+  messages%} {% for category, message in messages %}
+  <div class="alert {{category}} alert-dismissible fade show mb-3" role="alert">
+    {{message}}
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
+  </div>
+  {% endfor %} {% endif %} {% endwith %}
+  <script type="text/javascript">
+    $(document).ready(() => {
+      var socket = io.connect("http://localhost:8000/");
+      socket.on("recieve-message", (text, username) => {
+        if (username == "{{user.username}}") {
           $("#messages").append(
             "<div class='d-block m-3 text-end'><li style='word-wrap: break-word; max-width: 50%;' class='lh-lg mb-2 list-unstyled bg-first d-inline-block py-2 px-3 rounded text-white'>" +
-              message.text +
+              text +
               "</li></div>"
           );
         } else {
           $("#messages").append(
             "<div class='d-block m-3 text-start'><li style='word-wrap: break-word; max-width: 50%;' class='lh-lg mb-2 list-unstyled bg-light d-inline-block py-2 px-3 rounded text-dark'>" +
-              message.text +
+              text +
               "</li></div>"
           );
         }
+        $("#main").scrollTop($("#main")[0].scrollHeight);
       });
-      $("#main").scrollTop($("#main")[0].scrollHeight);
+      $("#sendButton").on("click", () => {
+        if ($("#myMessage").val() == "") {
+          return;
+        }
+        socket.emit("messageSent", $("#myMessage").val(), "{{user.username}}");
+        $("#myMessage").val("");
+      });
+      socket.on("room-joined", (room, messages, username) => {
+        $("#messages").empty();
+        $("#chat-toggle").removeClass("d-none");
+        $("#press-chat").addClass("d-none");
+        $("#username").click(() => window.location.href='user/profile/' + username)
+        $("#username")[0].innerHTML =
+          `<i class='fa-solid fa-circle-user border border-dark rounded-circle bg-secondary fs-4 text-white'></i> ` +
+          username;
+        messages.forEach((message, i) => {
+          if (message.username == "{{user.username}}") {
+            $("#messages").append(
+              "<div class='d-block m-3 text-end'><li style='word-wrap: break-word; max-width: 50%;' class='lh-lg mb-2 list-unstyled bg-first d-inline-block py-2 px-3 rounded text-white'>" +
+                message.text +
+                "</li></div>"
+            );
+          } else {
+            $("#messages").append(
+              "<div class='d-block m-3 text-start'><li style='word-wrap: break-word; max-width: 50%;' class='lh-lg mb-2 list-unstyled bg-light d-inline-block py-2 px-3 rounded text-dark'>" +
+                message.text +
+                "</li></div>"
+            );
+          }
+        });
+        $("#main").scrollTop($("#main")[0].scrollHeight);
+      });
+      const roomButtons = document.getElementsByClassName("roomButton");
+      for (i = 0; i < roomButtons.length; i++) {
+        roomButtons[i].addEventListener("click", (e) => {
+          socket.emit(
+            "join-room",
+            e.target.getAttribute("data-value"),
+            socket.id,
+            e.target.innerHTML
+          );
+        });
+      }
     });
-    const roomButtons = document.getElementsByClassName("roomButton");
-    for (i = 0; i < roomButtons.length; i++) {
-      roomButtons[i].addEventListener("click", (e) => {
-        socket.emit(
-          "join-room",
-          e.target.getAttribute("data-value"),
-          socket.id,
-          e.target.innerHTML
-        );
-      });
-    }
-  });
-</script>
-<div class="row mt-5">
-  <div class="d-grid gap-2 d-flex mb-3">
-    <h3 class="verdana text-white me-5">Chats</h3>
-    <form method="POST">
-      <button class="btn btn-primary btn-sm ms-5" id="findFriends">
-        Find Matches!
-      </button>
-    </form>
-  </div>
-
-  <div class="col-3 mt-3">
-    <div class="text-center">
-      {% for chat in user.chats %}
-      <button
-        class="btn btn-secondary w-100 py-2 border border-dark roomButton"
-        data-value="{{chat.room}}"
-      >
-        {% if chat.user1 == user.username %} {{chat.user2}} {% else %}
-        {{chat.user1}} {% endif %}
-      </button>
-      {% endfor %} {% if user.chats|length == 0%}
-      <p>You have no chats!</p>
-      {% endif%}
+  </script>
+  
+  </button>
+  
+  <div class="row mt-5">
+    <div class="d-grid gap-2 d-flex mb-3">
+      <h3 class="verdana text-white me-5">Chats</h3>
+      <form method="POST">
+        <button class="btn btn-primary btn-sm ms-5" id="findFriends">
+          Find Matches!
+        </button>
+      </form>
     </div>
-  </div>
-  <div
-    id="main"
-    class="col-9 border border-dark border-2 pb-2 bg-lightgray mb-5"
-    style="height: 75vh; overflow-y: scroll"
-  >
-    <div id="press-chat">
-      <p class="text-center mt-5 text-secondary">
-        <i
-          class="fa-solid fa-paper-plane display-1 border rounded-circle border-dark ps-3 pe-4 py-4"
-        ></i>
-      </p>
-      <p class="playfair lead text-center">Chat with your sport match!</p>
-      <p class="text-center text-secondary">
-        Press one of the chats at the side to begin texting
-      </p>
+  
+    <div class="col-3 mt-3">
+      <div class="text-center">
+        {% for chat in user.chats %}
+        <button
+          class="btn btn-secondary w-100 py-2 border border-dark roomButton mb-2"
+          data-value="{{chat.room}}"
+        >
+          {% if chat.user1 == user.username %} {{chat.user2}} {% else %}
+          {{chat.user1}} {% endif %}
+        </button>
+        {% endfor %} {% if user.chats|length == 0%}
+        <p>You have no chats!</p>
+        {% endif%}
+      </div>
     </div>
-
-    <div class="d-none" id="chat-toggle">
-      <p
-        class="border-bottom border-secondary py-2 text-start ps-5 verdana bg-lightgray"
-        style="position: sticky; top: 0"
-        id="username"
-      ></p>
-      <ul id="messages"></ul>
-      <div
-        class="input-group mt-4 text-center"
-        style="position: sticky; bottom: 0"
-      >
-        <input type="text" id="myMessage" class="form-control" />
-        <button id="sendButton" class="btn btn-primary">Send</button>
+    <div
+      id="main"
+      class="col-9 border border-dark border-2 pb-2 bg-lightgray mb-5"
+      style="height: 75vh; overflow-y: scroll"
+    >
+      <div id="press-chat">
+        <p class="text-center mt-5 text-secondary">
+          <i
+            class="fa-solid fa-paper-plane display-1 border rounded-circle border-dark ps-3 pe-4 py-4"
+          ></i>
+        </p>
+        <p class="playfair lead text-center">Chat with your sport match!</p>
+        <p class="text-center text-secondary">
+          Press one of the chats at the side to begin texting
+        </p>
+      </div>
+  
+      <div class="d-none" id="chat-toggle" style="width: 100%; height: 100%;">
+        <p
+          class="border-bottom border-secondary py-2 text-start ps-5 verdana bg-lightgray"
+          style="position: sticky; top: 0; cursor: pointer;"
+          id="username"
+  
+          
+        ></p>
+        <ul id="messages"></ul>
+        <div class="input-group mt-4 text-center" style="position: sticky; bottom: 0">
+          <input type="text" id="myMessage" class="form-control" />
+          <button id="sendButton" class="btn btn-primary">Send</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
-{% endblock %}
+  {% endblock %}
+  

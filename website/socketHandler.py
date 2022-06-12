@@ -16,4 +16,3 @@ def handleSockets(socketio, join_room, leave_room):
             db.session.add(newMessage)
             db.session.commit()
             socketio.emit("recieve-message", data=(msg, username), to=room)
-        #socketio.emit("recieve-message", "haaa", to=room)

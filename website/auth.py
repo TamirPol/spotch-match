@@ -1,3 +1,6 @@
+import datetime
+import re
+
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from .models import User
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -26,7 +29,7 @@ def login():
 
 @auth.route("sign-up", methods=["GET", "POST"])
 def sign_up():
-    fieldsValue = {"email": "", "username": "", "firstName": "", "lastName": "", "password1": "", "password2": "", "birthday": "", "sportOption": "", "sex": "", "sameSex": ""}
+    fieldsValue = {"email": "", "username": "", "firstName": "", "lastName": "", "password1": "", "password2": "", "birthday": "", "sport": "", "sex": "", "sameSex": ""}
     if request.method == "POST":
         email = request.form.get("email")
         username = request.form.get("username")
@@ -38,7 +41,6 @@ def sign_up():
         sport = request.form.get("sportOption")
         sex = request.form.get("sex")
         sameSex = request.form.get("sameSex")
-        print(sport, sex, sameSex)
         fieldsValue.update(email=email , username=username , firstName=firstName , lastName=lastName , password1=password1 , password2=password2 , birthday=birthday , sport=sport , sex=sex , sameSex=sameSex )
         userEmailTaken = User.query.filter_by(email=email).first()
         userUsernameTaken = User.query.filter_by(username=username).first()
@@ -60,6 +62,8 @@ def sign_up():
             flash("Passwords do not match!", category="dangerAlert")
         elif birthday == "":
             flash("Birthday is not set!", category="dangerAlert")
+        elif datetime.datetime.now().year - int(birthday[0:4]) < 16:
+            flash("Must be over 16 to create an account!", category="dangerAlert")
         elif sport == "False":
             flash("Sport is not chosen!", category="dangerAlert")
         elif sex is None:
@@ -67,7 +71,7 @@ def sign_up():
         elif sameSex is None:
             flash("Sex is not checked!", category="dangerAlert")
         else:
-            newUser = User(email=email, username=username, firstName=firstName, lastName=lastName, password=generate_password_hash(password1, method='sha256'), birthday=birthday, sport=sport, sex=sex, sameSex=sameSex, bio="Hi my name is " + firstName + "!")
+            newUser = User(email=email, username=username, firstName=firstName, lastName=lastName, password=generate_password_hash(password1, method='sha256'), birthday=birthday, age=int(birthday[0:4]), sport=sport, sex=sex, sameSex=sameSex, bio="Hi my name is " + firstName + "!")
             db.session.add(newUser)
             db.session.commit()
             flash("You have successfully created an account!", category="successAlert")
