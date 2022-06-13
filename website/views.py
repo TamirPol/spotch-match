@@ -19,11 +19,13 @@ def user_profile(username):
 @login_required
 def home():
     if request.method == "POST":
-        #Check sex
-        #Check if already connected
-        matchingUsers= User.query.filter((User.sport == current_user.sport)).filter((User.username != current_user.username)).filter((User.age - current_user.age <= 10) & (User.age - current_user.age >= -10)).limit(5).all()#.filter()
+        print(current_user.chats)
+        #Check if users already have a chat together
+        matchingUsers= User.query.filter((User.sport == current_user.sport)).filter((User.username != current_user.username)).filter((User.age - current_user.age <= 10) & (User.age - current_user.age >= -10)).filter((User.sex == current_user.sex) | ((User.sameSex == "no") & (current_user.sameSex == "no"))).filter().limit(5).all()
+        if len(matchingUsers) == 0:
+            flash("Sorry, there currently aren't any other users who match your preferences, try again later!", category="dangerAlert")
         for i in matchingUsers:
-            print(i.username, i.age)
+            print(i.username, i.age,i.sex, i.sameSex)
         """ newChat = Chat(room=current_user.username + "James", user1="Tamirpo", user2="James")
         db.session.add(newChat)
         otherUser = User.query.filter_by(username="James").first()
