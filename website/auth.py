@@ -48,7 +48,7 @@ def sign_up():
             flash("Email already taken!", category="dangerAlert")
         elif len(email) < 4:
             flash("Email must be greater than 4 characters!", category="dangerAlert")
-        elif userUsernameTaken:
+        elif userUsernameTaken or username == "Spotch Match":
             flash("Username already taken!", category="dangerAlert")
         elif len(username) < 2:
             flash("Username must be greater than 1 character!", category="dangerAlert")

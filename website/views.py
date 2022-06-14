@@ -19,16 +19,42 @@ def user_profile(username):
 @login_required
 def home():
     if request.method == "POST":
-        print(current_user.chats)
+        matchingUsers= User.query.filter((User.sport == current_user.sport)).filter((User.username != current_user.username)).filter((User.age - current_user.age <= 10) & (User.age - current_user.age >= -10)).filter((User.sex == current_user.sex) | ((User.sameSex == "no") & (current_user.sameSex == "no"))).all()
+        fiveMatchingUsers = []
+        for user in matchingUsers:
+            if len(fiveMatchingUsers) > 5:
+                break
+            if len(current_user.chats) == 0:
+                fiveMatchingUsers.append(user)
+                break
+            chatExists = False
+            for currentChat in current_user.chats:        
+                if currentChat in user.chats:
+                    chatExists = True
+            if not chatExists:
+                fiveMatchingUsers.append(user)
+        if len(fiveMatchingUsers) == 0:
+            flash("Sorry, there currently aren't any other users who match your preferences, try again later!", category="dangerAlert")    
+        print("HHHHHH", fiveMatchingUsers)
+        for user in fiveMatchingUsers:
+            print("New chat created!")
+            newChat = Chat(room=current_user.username + user.username, user1=current_user.username, user2=user.username)
+            db.session.add(newChat)
+            newMessage= Message(text="You two have matched!", username="Spotch Match", chat=newChat)
+            db.session.add(newMessage)
+            current_user.chats.append(newChat)
+            user.chats.append(newChat)
+            db.session.commit()
+            flash("New users have been connected to your account!!", category="successAlert")
         #Check if users already have a chat together
-        matchingUsers= User.query.filter((User.sport == current_user.sport)).filter((User.username != current_user.username)).filter((User.age - current_user.age <= 10) & (User.age - current_user.age >= -10)).filter((User.sex == current_user.sex) | ((User.sameSex == "no") & (current_user.sameSex == "no"))).filter().limit(5).all()
+        """ matchingUsers= User.query.filter((User.sport == current_user.sport)).filter((User.username != current_user.username)).filter((User.age - current_user.age <= 10) & (User.age - current_user.age >= -10)).filter((User.sex == current_user.sex) | ((User.sameSex == "no") & (current_user.sameSex == "no"))).filter().limit(5).all()
         if len(matchingUsers) == 0:
             flash("Sorry, there currently aren't any other users who match your preferences, try again later!", category="dangerAlert")
         for i in matchingUsers:
-            print(i.username, i.age,i.sex, i.sameSex)
-        """ newChat = Chat(room=current_user.username + "James", user1="Tamirpo", user2="James")
+            print(i.username, i.age,i.sex, i.sameSex) """
+        """ newChat = Chat(room=current_user.username + "Osama", user1="Tamirpo", user2="Osama")
         db.session.add(newChat)
-        otherUser = User.query.filter_by(username="James").first()
+        otherUser = User.query.filter_by(username="Osama").first()
         otherUser.chats.append(newChat)
         current_user.chats.append(newChat)
         db.session.commit() """

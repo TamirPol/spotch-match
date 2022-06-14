@@ -46,7 +46,16 @@
           `<i class='fa-solid fa-circle-user border border-dark rounded-circle bg-secondary fs-4 text-white'></i> ` +
           username;
         messages.forEach((message, i) => {
-          if (message.username == "{{user.username}}") {
+          console.log(message, username, message.username)
+          if (message.username == "Spotch Match"){
+            console.log("nice")
+            $("#messages").append(
+              "<div class='d-block m-3 text-center'><li style='word-wrap: break-word; max-width: 50%;' class='lh-lg my-5 list-unstyled bg-purple d-inline-block py-3 px-4 rounded text-white h6'>" +
+                message.text +
+                "<p class='text-dark lead'>Enjoy chatting!</p></li></div>"
+            );
+          }
+          else if (message.username == "{{user.username}}") {
             $("#messages").append(
               "<div class='d-block m-3 text-end'><li style='word-wrap: break-word; max-width: 50%;' class='lh-lg mb-2 list-unstyled bg-first d-inline-block py-2 px-3 rounded text-white'>" +
                 message.text +
