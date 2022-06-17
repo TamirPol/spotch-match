@@ -120,6 +120,20 @@ content %}
       </select>
     </div>
 
+    <div class="mb-3 text-center">
+      <label for="city" class="form-label text-second playfair"
+        >City:
+      </label>
+      <input
+        type="text"
+        class="form-control"
+        id="city"
+        name="city"
+        placeholder="Enter residing city"
+        value="{{fieldsValue.city}}"
+      />
+    </div>
+
     <div class="form-check form-check-inline mb-3">
       <input class="form-check-input" type="radio" name="sex" id="male" {% if
       fieldsValue.sex == "male" %} checked {%endif%} value="male" />

@@ -1,7 +1,9 @@
 {% extends "base.html" %} {% block title %}Profile{% endblock %}{% block content
 %}
 <div class="row mt-5 border-bottom pb-5">
-  <div class="col"></div>
+  <div class="col m-auto text-center">
+    <i class="fa-solid fa-circle-user text-white userPicture"></i>
+  </div>
   <div class="col">
     <form method="POST">
       <h3 class="text-white verdana me-3 d-inline">{{user.username}}</h3>
@@ -14,6 +16,8 @@
       Name: {{user.firstName}} {{user.lastName}}
     </p>
     <p class="text-second ms-5 playfair lh-1 mt-3">Sex: {{user.sex}}</p>
+    <p class="text-second ms-5 playfair lh-1 mt-3">City: {{user.city}}</p>
+    <p class="text-second ms-5 playfair lh-1 mt-3">Age: {{currentYear - user.age}}</p>
     <p class="border border-secondary p-3 text-light bio_p">{{user.bio}}</p>
   </div>
   <div class="col-3"></div>

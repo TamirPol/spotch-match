@@ -19,6 +19,7 @@ class User(db.Model, UserMixin):
     sex = db.Column(db.String(150))
     sameSex = db.Column(db.String(150))
     bio = db.Column(db.String(150))
+    city = db.Column(db.String(150))
     chats = db.relationship("Chat", secondary=user_chat, backref='users')
 
 class Chat(db.Model):

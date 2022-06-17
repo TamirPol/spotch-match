@@ -1,9 +1,11 @@
+<!-- Base template with navbar for all templates -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Import style.css, bootstrap, font awesome, jquery, and socketio -->
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='style.css') }}"
@@ -38,9 +40,11 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
+    <!-- block where each template can enter their own title -->
     <title>{% block title%}{% endblock %}</title>
   </head>
   <body class="bg-first">
+    <!-- Setup navbar using bootstrap classes -->
     <nav class="navbar navbar-expand-sm navbar-dark border-bottom mb-3">
       <div class="container-fluid">
         <div class="me-auto ms-5">
@@ -60,6 +64,7 @@
           >
             <span class="navbar-toggler-icon"></span>
           </button>
+          <!-- Check which navbar links to show at the top whether the user is signed in or not -->
           <div class="collapse navbar-collapse" id="navbar">
             <div class="navbar-nav">
               {% if user.is_authenticated %}
@@ -81,6 +86,7 @@
         </div>
       </div>
     </nav>
+    <!-- A block where templates can enter unique elements -->
     <div class="container">{% block content %}{% endblock %}</div>
   </body>
 </html>
