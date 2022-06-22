@@ -21,7 +21,7 @@ class User(db.Model, UserMixin):
     bio = db.Column(db.String(150))
     city = db.Column(db.String(150))
     chats = db.relationship("Chat", secondary=user_chat, backref='users')
-
+    
 class Chat(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user1 = db.Column(db.String(150))

@@ -1,5 +1,6 @@
 {% extends "base.html" %} {% block title %}Login{% endblock %} {% block content
 %}
+<div class="container">
 <h1 class="mt-3 text-white text-center verdana">Login</h1>
 <div class="bg-lighter p-5 m-3 roundedForm">
   {% with messages = get_flashed_messages(with_categories=true)%} {% if
@@ -48,5 +49,6 @@
       </button>
     </div>
   </form>
+</div>
 </div>
 {% endblock %}

@@ -1,4 +1,4 @@
-from .models import Chat, Message, MessageSchema
+from .models import User, Chat, Message, MessageSchema
 from . import db
 def handleSockets(socketio, join_room, leave_room):
     @socketio.on("join-room")

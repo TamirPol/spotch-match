@@ -9,11 +9,10 @@ views = Blueprint("views", __name__)
 @views.route("/user/profile/<username>")
 def user_profile(username):
     user = User.query.filter_by(username=username).first()
-    print(user)
     if user:
-        return render_template("otherUserProfile.html", user=user)
+        return render_template("otherUserProfile.html", user=current_user, otherUser=user, currentYear=datetime.datetime.now().year)
     else:
-        return render_template("noUserProfile.html", user=user)
+        return render_template("noUserProfile.html", user=current_user)
 
 
 @views.route("/", methods=["GET", "POST"])
@@ -27,7 +26,6 @@ def home():
                 break
             if len(current_user.chats) == 0:
                 fiveMatchingUsers.append(user)
-                break
             chatExists = False
             for currentChat in current_user.chats:        
                 if currentChat in user.chats:
@@ -49,6 +47,31 @@ def home():
             
     return render_template("home.html", user=current_user)
 
+@views.route("/searchForUser", methods=["POST"])
+def searchedForUser():
+    user = request.form.get("findUsername")
+    searchUser = User.query.filter_by(username=user).first()
+    if searchUser is None:
+        flash("User does not exist!", category='dangerAlert')
+    elif searchUser == current_user:
+        flash("Do not enter your username!", category='dangerAlert')
+    else:
+        userAlreadyConnected = False
+        for chat in current_user.chats:
+            if chat in searchUser.chats:
+                userAlreadyConnected = True
+                flash("User is already connected to you!", category='dangerAlert')
+        if not userAlreadyConnected:
+            newChat = Chat(room=current_user.username + searchUser.username, user1=current_user.username, user2=searchUser.username)
+            db.session.add(newChat)
+            newMessage= Message(text=current_user.username + " wanted to chat!", username="Spotch Match", chat=newChat)
+            db.session.add(newMessage)
+            current_user.chats.append(newChat)
+            searchUser.chats.append(newChat)
+            db.session.commit()
+            flash("New chat created", category='successAlert')
+    return redirect(url_for("views.home"))
+
 @views.route("/profile", methods=["GET", "POST"])
 @login_required
 def profile():
@@ -56,7 +79,6 @@ def profile():
     if request.method == "POST":
         return redirect(url_for("views.editProfile"))
     return render_template("profile.html", user=current_user, currentYear = datetime.datetime.now().year)
-
 
 @views.route("/editProfile", methods=["GET", "POST"])
 @login_required

@@ -1,16 +1,5 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
-  %} {% with messages = get_flashed_messages(with_categories=true)%} {% if
-  messages%} {% for category, message in messages %}
-  <div class="alert {{category}} alert-dismissible fade show mb-3" role="alert">
-    {{message}}
-    <button
-      type="button"
-      class="btn-close"
-      data-bs-dismiss="alert"
-      aria-label="Close"
-    ></button>
-  </div>
-  {% endfor %} {% endif %} {% endwith %}
+  %}
   <script type="text/javascript">
     $(document).ready(() => {
       var socket = io.connect("http://localhost:8000/");
@@ -46,9 +35,7 @@
           `<i class='fa-solid fa-circle-user border border-dark rounded-circle bg-secondary fs-4 text-white'></i> ` +
           username;
         messages.forEach((message, i) => {
-          console.log(message, username, message.username)
           if (message.username == "Spotch Match"){
-            console.log("nice")
             $("#messages").append(
               "<div class='d-block m-3 text-center'><li style='word-wrap: break-word; max-width: 50%;' class='lh-lg my-5 list-unstyled bg-purple d-inline-block py-3 px-4 rounded text-white h6'>" +
                 message.text +
@@ -84,19 +71,46 @@
       }
     });
   </script>
-  
-  </button>
-  
-  <div class="row mt-5">
-    <div class="d-grid gap-2 d-flex mb-3">
-      <h3 class="verdana text-white me-5">Chats</h3>
+  <div class="container-fluid">
+  <div class="row mt-3 container-fluid mx-2">
+    <div class="col-5">
+      <div class="input-group input-group-sm mb-3">
+        <form method="POST" action="{{url_for('views.searchedForUser')}}" class="row">
+          <div class="input-group">
+            <input type="text" class="form-control form-control-sm" placeholder="Username" aria-label="Username" id="findUsername" name="findUsername">
+            <button class="btn btn-outline-primary btn-sm" type="submit" id="chosenChat">Chat</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="col-5"></div>
+    <div class="col-2">
       <form method="POST">
         <button class="btn btn-primary btn-sm ms-5" id="findFriends">
           Find Matches!
         </button>
       </form>
     </div>
-  
+  </div>
+  <div class="mt-3 text-white verdana">
+    <h1 class="verdana text-center">Chats</h1>
+  </div>
+  <div class="container">
+  {% with messages = get_flashed_messages(with_categories=true)%} {% if
+    messages%} {% for category, message in messages %}
+    <div class="alert {{category}} alert-dismissible fade show mb-3 mt-3" role="alert">
+      {{message}}
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      ></button>
+    </div>
+    {% endfor %} {% endif %} {% endwith %}
+    </div>
+  <div class="container">
+  <div class="row mt-4">
     <div class="col-3 mt-3">
       <div class="text-center">
         {% for chat in user.chats %}
@@ -114,7 +128,7 @@
     </div>
     <div
       id="main"
-      class="col-9 border border-dark border-2 pb-2 bg-lightgray mb-5"
+      class="col-9 border border-dark border-2 bg-lightgray mb-5"
       style="height: 75vh; overflow-y: scroll"
     >
       <div id="press-chat">
@@ -138,12 +152,15 @@
           
         ></p>
         <ul id="messages"></ul>
+        <div class="bg-lightgray pt-1 pb-3" style="position: sticky; bottom: 0">
         <div class="input-group mt-4 text-center" style="position: sticky; bottom: 0">
           <input type="text" id="myMessage" class="form-control" />
           <button id="sendButton" class="btn btn-primary">Send</button>
         </div>
+        </div>
+      </div>
       </div>
     </div>
   </div>
+</div>
   {% endblock %}
-  
