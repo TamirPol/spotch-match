@@ -28,6 +28,8 @@ def create_app():
     # Add secret key and config database
     app.config["SECRET_KEY"] = "Simba"
     app.config["SQLALCHEMY_DATABASE_URI"] = f'sqlite:///{DB_NAME}'
+    app.config["transports"] = ['websocket']
+    
 
     #Initalizes db to app
     db.init_app(app)

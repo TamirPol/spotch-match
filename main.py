@@ -5,7 +5,7 @@ from website.socketHandler import handleSockets
 
 # set app equal to create_app()
 app = create_app()
-app.config["transports"] = ['websocket']
+app.transports = ['websocket']
 
 # Create a flask socketio server
 socketio = SocketIO(app)
