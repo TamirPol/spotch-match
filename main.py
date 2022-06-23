@@ -5,9 +5,10 @@ from website.socketHandler import handleSockets
 
 # set app equal to create_app()
 app = create_app()
+app.config["transports"] = ['websocket']
 
 # Create a flask socketio server
-socketio = SocketIO(app, cors_allowed_origins="*")
+socketio = SocketIO(app)
 # Call handleSockets function and pass the flask socketio server with socket functions
 handleSockets(socketio, join_room, leave_room)
 

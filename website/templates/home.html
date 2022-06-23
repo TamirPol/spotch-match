@@ -5,7 +5,7 @@
      // Run javascript code when all DOM files are loaded
     $(document).ready(() => {
       // Connect to webserver
-      var socket = io();
+      var socket = io({transports: ['websocket']});
       // If recieve-message call is sent, show text on page with different styles depending on which user sent the message
       socket.on("recieve-message", (text, username) => {
         if (username == "{{user.username}}") {
