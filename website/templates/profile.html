@@ -1,3 +1,5 @@
+<!-- HTML file to see your profile and a button that leads to editProfile html page -->
+
 {% extends "base.html" %} {% block title %}Profile{% endblock %}{% block content
 %}
 <div class="container">
@@ -9,13 +11,16 @@
     <form method="POST">
       <h3 class="text-white verdana me-3 d-inline">{{user.username}}</h3>
 
-      <span
-        ><button class="btn btn-secondary btn-sm">Edit Profile</button></span
+      <span>
+        <!-- a form with a button that changed the url to the editProfile page -->
+        <button class="btn btn-secondary btn-sm">Edit Profile</button></span
       >
     </form>
+    <!-- First name and last name -->
     <p class="text-second ms-5 playfair lh-1 mt-3">
       Name: {{user.firstName}} {{user.lastName}}
     </p>
+    <!-- Show sex, city, sport, age, bio -->
     <p class="text-second ms-5 playfair lh-1 mt-3">Sex: {{user.sex}}</p>
     <p class="text-second ms-5 playfair lh-1 mt-3">City: {{user.city}}</p>
     <p class="text-second ms-5 playfair lh-1 mt-3">Sport: {{user.sport}}</p>
@@ -24,6 +29,7 @@
   </div>
   <div class="col-3"></div>
 </div>
+<!-- Uploaded images would be available in next versions -->
 <div class="photos">
   <h2>Images not yet available in this version</h2>
 </div>

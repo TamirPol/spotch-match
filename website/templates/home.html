@@ -1,8 +1,12 @@
+<!-- HTML file for the home page -->
 {% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
   %}
   <script type="text/javascript">
+     // Run javascript code when all DOM files are loaded
     $(document).ready(() => {
-      var socket = io.connect("http://localhost:8000/");
+      // Connect to webserver
+      var socket = io();
+      // If recieve-message call is sent, show text on page with different styles depending on which user sent the message
       socket.on("recieve-message", (text, username) => {
         if (username == "{{user.username}}") {
           $("#messages").append(
@@ -17,24 +21,35 @@
               "</li></div>"
           );
         }
+        // If you send a message scroll to bottom of text message automatically
         $("#main").scrollTop($("#main")[0].scrollHeight);
       });
+      //Function that checks if sendButton function for messaging is clicked
       $("#sendButton").on("click", () => {
+        //Stop the function is the value of the input text is empty
         if ($("#myMessage").val() == "") {
           return;
         }
+        // Emit socket function called messageSend with the value of the input text and the user who sent it
         socket.emit("messageSent", $("#myMessage").val(), "{{user.username}}");
+        // Reset the input text value to nothing
         $("#myMessage").val("");
       });
+      // Call the following event if room-joined call is sent
       socket.on("room-joined", (room, messages, username) => {
+        //Reset message array, show chat, and hide the start message
         $("#messages").empty();
         $("#chat-toggle").removeClass("d-none");
         $("#press-chat").addClass("d-none");
+        // click function that sends user to /home/user/profile if user presses other user's username
         $("#username").click(() => window.location.href='user/profile/' + username)
+        // Add username text to the username
         $("#username")[0].innerHTML =
           `<i class='fa-solid fa-circle-user border border-dark rounded-circle bg-secondary fs-4 text-white'></i> ` +
           username;
+        // Loop through all messages, check which user sent the message, and output accordingly
         messages.forEach((message, i) => {
+          // Introductory message that always gets outputted when users match
           if (message.username == "Spotch Match"){
             $("#messages").append(
               "<div class='d-block m-3 text-center'><li style='word-wrap: break-word; max-width: 50%;' class='lh-lg my-5 list-unstyled bg-purple d-inline-block py-3 px-4 rounded text-white h6'>" +
@@ -56,8 +71,10 @@
             );
           }
         });
+        // Scroll to bottom of chat
         $("#main").scrollTop($("#main")[0].scrollHeight);
       });
+      // Give each room button a click function that emits the join-room function and passes, the button value, socketID, and the innerHTML
       const roomButtons = document.getElementsByClassName("roomButton");
       for (i = 0; i < roomButtons.length; i++) {
         roomButtons[i].addEventListener("click", (e) => {
@@ -75,6 +92,8 @@
   <div class="row mt-3 container-fluid mx-2">
     <div class="col-5">
       <div class="input-group input-group-sm mb-3">
+        <!-- Create a form that sends result to views.searchedForUser -->
+        <!-- Purpose of form is to search for users you know instead of findMatches-->
         <form method="POST" action="{{url_for('views.searchedForUser')}}" class="row">
           <div class="input-group">
             <input type="text" class="form-control form-control-sm" placeholder="Username" aria-label="Username" id="findUsername" name="findUsername">
@@ -85,6 +104,7 @@
     </div>
     <div class="col-5"></div>
     <div class="col-2">
+      <!-- Button to find users similiar to you in preferences -->
       <form method="POST">
         <button class="btn btn-primary btn-sm ms-5" id="findFriends">
           Find Matches!
@@ -96,6 +116,7 @@
     <h1 class="verdana text-center">Chats</h1>
   </div>
   <div class="container">
+    <!-- Show all flash messages that are sent -->
   {% with messages = get_flashed_messages(with_categories=true)%} {% if
     messages%} {% for category, message in messages %}
     <div class="alert {{category}} alert-dismissible fade show mb-3 mt-3" role="alert">
@@ -113,6 +134,7 @@
   <div class="row mt-4">
     <div class="col-3 mt-3">
       <div class="text-center">
+        <!-- Create a gray button for each chat you have with the other user's name as the button text-->
         {% for chat in user.chats %}
         <button
           class="btn btn-secondary w-100 py-2 border border-dark roomButton mb-2"
@@ -126,11 +148,13 @@
         {% endif%}
       </div>
     </div>
+    <!-- Have a y axis scroll bar and a fixed height -->
     <div
       id="main"
       class="col-9 border border-dark border-2 bg-lightgray mb-5"
       style="height: 75vh; overflow-y: scroll"
     >
+    <!-- Shown default message before user presses chat button -->
       <div id="press-chat">
         <p class="text-center mt-5 text-secondary">
           <i
@@ -142,7 +166,7 @@
           Press one of the chats at the side to begin texting
         </p>
       </div>
-  
+      <!-- Hide div until user presses one of the chat buttons -->
       <div class="d-none" id="chat-toggle" style="width: 100%; height: 100%;">
         <p
           class="border-bottom border-secondary py-2 text-start ps-5 verdana bg-lightgray"
@@ -151,7 +175,9 @@
   
           
         ></p>
+        <!-- List for all messages -->
         <ul id="messages"></ul>
+        <!-- Input and button to send messages -->
         <div class="bg-lightgray pt-1 pb-3" style="position: sticky; bottom: 0">
         <div class="input-group mt-4 text-center" style="position: sticky; bottom: 0">
           <input type="text" id="myMessage" class="form-control" />

@@ -1,14 +1,19 @@
+/* Import a font to use from google fonts (playfair display) */
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap");
 
+/* Main background color */
 .bg-first {
   background-color: rgb(57, 11, 172);
 }
+/* Color for some and buttons */
 .bg-second {
   background-color: rgb(255, 93, 5);
 }
+/* Tertiary color */
 .bg-third {
   background-color: rgb(128, 147, 241);
 }
+/* Other less used background colors */
 .bg-purple {
   background-color: rgb(198, 208, 255);
 }
@@ -21,19 +26,23 @@
 .bg-lightgray {
   background-color: rgb(211, 218, 253);
 }
+/* Same color as bg-second but for text */
 .text-second {
   color: rgb(255, 93, 5) !important;
 }
+/* Gives a border radius of 10% */
 .roundedForm {
   border-radius: 10%;
 }
+/* A class with builtin font (verdana) */
 .verdana {
   font-family: Verdana, Geneva, Tahoma, sans-serif !important;
 }
+/* The playfair display font  */
 .playfair {
   font-family: "Playfair Display", serif;
 }
-
+/* Two alert classes for error and success flashes */
 .dangerAlert {
   background-color: rgb(220, 20, 60);
   color: rgb(246, 235, 255);
@@ -42,9 +51,11 @@
   background-color: rgb(128, 147, 241);
   color: rgb(246, 235, 255);
 }
+/* Used for bio so white space is preserved and text can be broken down into multiple lines */
 .bio_p {
   white-space: pre-wrap;
 }
+/* Current placeholder picture for user profile */
 .userPicture{
   font-size: 150px;
 }
