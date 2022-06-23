@@ -13,4 +13,4 @@ handleSockets(socketio, join_room, leave_room)
 
 # Run application
 if __name__ == "__main__":
-    socketio.run(app, debug=True)
+    socketio.run(app, port=8000, debug=True)
