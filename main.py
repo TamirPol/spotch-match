@@ -7,10 +7,10 @@ from website.socketHandler import handleSockets
 app = create_app()
 
 # Create a flask socketio server
-socketio = SocketIO(app)
+socketio = SocketIO(app, cors_allowed_origins="*")
 # Call handleSockets function and pass the flask socketio server with socket functions
 handleSockets(socketio, join_room, leave_room)
 
 # Run application
 if __name__ == "__main__":
-    socketio.run(app, port=8000, debug=True)
+    socketio.run(app, host="localhost", port=8000, debug=True)
