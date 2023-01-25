@@ -62,9 +62,6 @@ wsproto==1.1.0
 WTForms==3.0.1
 
 ```
-## Easter eggs
-
-Hovering below "Images not yet available in this version" in profile page and pressing it rickrolls you
 
 ## Support
 Please contact the developer at tamirpo6@gmail.com for support or feature requests
