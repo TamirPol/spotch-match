@@ -67,7 +67,7 @@ WTForms==3.0.1
 Hovering below "Images not yet available in this version" in profile page and pressing it rickrolls you
 
 ## Support
-Please contect the developer at tpoly1@ocdsb.ca for support or feature requests
+Please contact the developer at tpoly1@ocdsb.ca for support or feature requests
 
 ## Sources
 
