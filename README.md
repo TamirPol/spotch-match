@@ -6,7 +6,7 @@ Spotch Match is a messaging platform where users can be matched together based o
 
 * Has login and sign up pages
 * Has a home page where the user can access his existing chats
-* Has a button with the functionality of matching two users based on prefernces such as residing location and sport
+* Has a button with the functionality of matching two users based on preferences such as residing location and sport
 * Has a search bar where username can be entered to create a new chat between the current user and the user entered
 * Has the ability to chat with other users using sockets and real-time programming
 * Has a profile page with bio for user and the ability to look at other users' profile
