@@ -67,17 +67,5 @@ WTForms==3.0.1
 Hovering below "Images not yet available in this version" in profile page and pressing it rickrolls you
 
 ## Support
-Please contact the developer at tpoly1@ocdsb.ca for support or feature requests
+Please contact the developer at tamirpo6@gmail.com for support or feature requests
 
-## Sources
-
-|`Site/Video` | `Purpose`|
-| ------------|----------|
-| https://www.youtube.com/watch?v=dam0GPOAvVI&t=7132s, https://flask.palletsprojects.com/en/2.1.x/, https://flask-login.readthedocs.io/en/latest/ | To learn and understand the concepts of flask |
-| https://www.youtube.com/watch?v=t0GlGbtMTio&t=479s | To undestand the difference between SQL and NoSQL and to choose the better database structure for my project |
-| https://www.youtube.com/watch?v=47i-jzrrIGQ | Understanding many to many relationship |
-| https://www.youtube.com/watch?v=VVX7JIWx-ss | Understanding one to many relationship |
-| https://www.youtube.com/watch?v=SR8xeaRXLcg | Example of socket project to understand the structure of the code, they don’t go into much depth just a general overview of the project |
-| https://flask-socketio.readthedocs.io/en/latest/ | Flask-SocketIO documentation |
-| https://marshmallow-sqlalchemy.readthedocs.io/en/latest/api_reference.html, https://www.youtube.com/watch?v=kRNXKzfYrPU | Marshmallow documentation and implementation in flask-sqlalchemy|
-| https://socket.io/docs/v4/ | Socket.io documentation to understand how to use client side websockets and how to interact with the server side|
