@@ -63,6 +63,11 @@ WTForms==3.0.1
 
 ```
 
+To run the program run main.py
+```
+Python main.py
+```
+
 ## Support
 Please contact the developer at tamirpo6@gmail.com for support or feature requests
 
