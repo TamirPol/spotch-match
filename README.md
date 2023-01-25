@@ -1,6 +1,6 @@
 # Spotch Match
 
-Spotch Match is a messaging platform where users can be matched together based on the fact that they play the same sport, are approximately the same age, live in the same city, and have the same sex preferences
+Spotch Match is a messaging platform where users can be matched together based on the fact that they play the same sport, are approximately the same age, live in the same city, and have the same gender preferences
 
 ## Features
 
