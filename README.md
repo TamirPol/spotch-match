@@ -69,5 +69,5 @@ Python main.py
 ```
 
 ## Support
-Please contact the developer at tamirpo6@gmail.com for support or feature requests
+Please contact the developer at tamirpolyakov@gmail.com for support or feature requests
 
