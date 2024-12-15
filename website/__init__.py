@@ -26,7 +26,7 @@ def create_app():
     app = Flask(__name__)
 
     # Add secret key and config database
-    app.config["SECRET_KEY"] = "Simba"
+    app.config["SECRET_KEY"] = ""
     app.config["SQLALCHEMY_DATABASE_URI"] = f'sqlite:///{DB_NAME}'
 
 
